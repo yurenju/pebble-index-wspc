@@ -20,6 +20,10 @@ _Avoid_: target、output
 Pebble app 對一次錄音轉出的一段純文字，一次 webhook 請求帶一段。
 _Avoid_: transcription、note、memo
 
+**項目（Entry）**:
+一段逐字稿接進目的地之後的那一行，帶著錄音當下的日期與時間。一段逐字稿最多變成一個項目；空白的逐字稿不會變成項目。
+_Avoid_: 記錄、line、row
+
 **Relay**:
 這個服務本身在 Pebble 與 WSPC 之間扮演的角色：收 Pebble 的請求、轉成 WSPC 要的格式再寫進去。
 _Avoid_: proxy、bridge
