@@ -25,7 +25,18 @@ namespace and a fake clock.
 
 ## Deploy
 
-Copy `wrangler.example.toml` to `wrangler.toml` (git-ignored), fill in the KV namespace id and the
+Run the setup wizard from the repo root:
+
+```bash
+scripts/setup.sh
+```
+
+It walks through Cloudflare login, creating the WSPC API key, choosing the Destination, a read-only
+preflight, the KV namespace and git-ignored `wrangler.toml`, `wrangler deploy`, both Worker secrets,
+the Pebble app settings and a test event, and ends with where to find `write_failed` logs. Re-run it
+to change the Destination or replace a key; it offers current values as defaults.
+
+By hand instead: copy `wrangler.example.toml` to `wrangler.toml`, fill in the KV namespace id and the
 three `[vars]`, then:
 
 ```bash
