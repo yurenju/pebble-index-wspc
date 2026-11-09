@@ -1,0 +1,20 @@
+name = "pebble-relay"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = true
+
+[vars]
+WSPC_LIBRARY_ID = "lib_XXXXXXXXXXXXXXXXXXXXXXXXXX"
+DESTINATION_PATH = "00-inbox/pebble-index-records.md"
+TIMEZONE = "Asia/Tokyo"
+
+[[kv_namespaces]]
+binding = "DELIVERIES"
+id = "<KV namespace id created by the wizard>"
+
+[observability]
+enabled = true
+
+# Secrets (set with `npx wrangler secret put`, never written here):
+#   WSPC_API_KEY
+#   PEBBLE_SIGNING_SECRET
