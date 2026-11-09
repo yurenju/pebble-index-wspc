@@ -1,19 +1,19 @@
 # Pebble Index → WSPC Drive
 
-把 Pebble Index 01 錄音戒指產生的逐字稿，轉送進使用者自己的 WSPC Drive 檔案。
+把 Pebble Index 01 錄音戒指產生的逐字稿，轉送進擁有者自己的 WSPC Drive 裡的一個檔案。只給一個人用。
 
 ## Language
 
-**使用者（User）**:
-用自己的 WSPC 帳號登入這個服務的人；任何有 WSPC 帳號的人都可以成為使用者。每個使用者只會寫進自己的 WSPC Drive。
-_Avoid_: 帳號、member
+**擁有者（Owner）**:
+部署並使用這個服務的那一個人。服務只寫進擁有者的 WSPC Drive，沒有其他使用者，也沒有登入。
+_Avoid_: 使用者、帳號、member
 
 **Webhook**:
-使用者建立的一組專屬網址加驗證 secret，貼進 Pebble app 後，逐字稿會送到這裡；每個 Webhook 對應剛好一個目的地。
+Relay 對外的那一個網址加驗證 secret，由擁有者貼進 Pebble app；Pebble app 的兩種手勢都可以指向它，逐字稿全部送到同一個目的地。
 _Avoid_: endpoint、hook、trigger
 
 **目的地（Destination）**:
-Webhook 收到的逐字稿要寫進的那個 WSPC Drive 檔案，由 library 加上檔案路徑決定。
+逐字稿要接上去的那一個 WSPC Drive 檔案，由 library 加上檔案路徑決定，寫在部署設定裡。
 _Avoid_: target、output
 
 **逐字稿（Transcript）**:
