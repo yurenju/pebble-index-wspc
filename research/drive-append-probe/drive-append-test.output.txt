@@ -1,0 +1,397 @@
+
+## Q3 sha256 header
+{
+  "noHash": {
+    "status": 400,
+    "ms": 815,
+    "code": "VALIDATION_ERROR",
+    "message": "x-drive-content-sha256 is invalid"
+  },
+  "badHash": {
+    "status": 400,
+    "ms": 922,
+    "code": "HASH_MISMATCH",
+    "message": "Content hash mismatch."
+  },
+  "goodHash": {
+    "status": 200,
+    "ms": 2283,
+    "result": "created",
+    "entry_version": 1
+  }
+}
+
+## Q4 PUT without version
+{
+  "created": {
+    "status": 200,
+    "ms": 1518,
+    "result": "created",
+    "entry_version": 1
+  },
+  "blind": {
+    "status": 200,
+    "ms": 1958,
+    "result": "updated",
+    "entry_version": 2
+  },
+  "staleVersion1": {
+    "status": 409,
+    "ms": 437,
+    "code": "VERSION_CONFLICT",
+    "message": "The remote entry changed before this write."
+  },
+  "version0OnExisting": {
+    "status": 409,
+    "ms": 566,
+    "code": "VERSION_CONFLICT",
+    "message": "The remote entry changed before this write."
+  },
+  "finalContent": "v2 blind\n",
+  "finalVersion": 2
+}
+
+## Q2 edit version / errors
+{
+  "missingFile": {
+    "status": 404,
+    "ms": 399,
+    "code": "FILE_NOT_FOUND",
+    "message": "File not found."
+  },
+  "noMatch": {
+    "status": 409,
+    "ms": 972,
+    "code": "EDIT_NO_MATCH",
+    "message": "old_string not found; the file may have changed, re-read it."
+  },
+  "bodyExpectedVersion999": {
+    "status": 200,
+    "ms": 1647,
+    "result": "updated",
+    "entry_version": 2
+  },
+  "bodyExpectedEntryVersion999": {
+    "status": 200,
+    "ms": 2015,
+    "result": "updated",
+    "entry_version": 3
+  },
+  "multipleMatchesWithoutReplaceAll": {
+    "status": 409,
+    "ms": 906,
+    "code": "EDIT_NOT_UNIQUE",
+    "message": "old_string is not unique; add surrounding context or set replace_all."
+  },
+  "contentAfter": "dup\ndup\n"
+}
+
+## Q1 concurrent edit
+[
+  {
+    "statuses": [
+      200,
+      409,
+      409,
+      409,
+      409,
+      409,
+      409,
+      409,
+      409,
+      409
+    ],
+    "codes": [
+      null,
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT"
+    ],
+    "ms": [
+      1996,
+      2665,
+      2185,
+      2348,
+      1941,
+      2014,
+      2616,
+      2619,
+      2224,
+      2284
+    ],
+    "kept": 1,
+    "of": 10,
+    "okButLost": [],
+    "markers": 1,
+    "finalVersion": 2
+  },
+  {
+    "statuses": [
+      409,
+      409,
+      409,
+      409,
+      409,
+      200,
+      409,
+      409,
+      409,
+      409
+    ],
+    "codes": [
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      null,
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT"
+    ],
+    "ms": [
+      2429,
+      1889,
+      1902,
+      1958,
+      2633,
+      1892,
+      2838,
+      1948,
+      2426,
+      2009
+    ],
+    "kept": 1,
+    "of": 10,
+    "okButLost": [],
+    "markers": 1,
+    "finalVersion": 2
+  },
+  {
+    "statuses": [
+      409,
+      409,
+      409,
+      200,
+      409,
+      409,
+      409,
+      409,
+      409,
+      409
+    ],
+    "codes": [
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      null,
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT",
+      "VERSION_CONFLICT"
+    ],
+    "ms": [
+      1899,
+      2214,
+      1781,
+      1801,
+      1819,
+      1825,
+      2079,
+      1770,
+      1799,
+      1825
+    ],
+    "kept": 1,
+    "of": 10,
+    "okButLost": [],
+    "markers": 1,
+    "finalVersion": 2
+  }
+]
+
+## Q5 concurrent read-modify-write
+[
+  {
+    "attempts": [
+      1,
+      4,
+      5,
+      10,
+      9,
+      7,
+      8,
+      3,
+      2,
+      6
+    ],
+    "allOk": true,
+    "kept": 10,
+    "of": 10,
+    "wallMs": 24967,
+    "failures": []
+  },
+  {
+    "attempts": [
+      8,
+      9,
+      5,
+      5,
+      2,
+      7,
+      1,
+      6,
+      3,
+      4
+    ],
+    "allOk": false,
+    "kept": 9,
+    "of": 10,
+    "wallMs": 21191,
+    "failures": [
+      {
+        "ok": false,
+        "attempts": 5,
+        "statuses": [
+          409,
+          409,
+          409,
+          409,
+          500
+        ],
+        "error": {
+          "status": 500,
+          "ms": 1266,
+          "code": "INTERNAL_ERROR",
+          "message": "Internal error"
+        }
+      }
+    ]
+  },
+  {
+    "attempts": [
+      3,
+      7,
+      4,
+      2,
+      6,
+      1,
+      5,
+      9,
+      8,
+      3
+    ],
+    "allOk": false,
+    "kept": 9,
+    "of": 10,
+    "wallMs": 21987,
+    "failures": [
+      {
+        "ok": false,
+        "attempts": 3,
+        "statuses": [
+          409,
+          409,
+          500
+        ],
+        "error": {
+          "status": 500,
+          "ms": 1503,
+          "code": "INTERNAL_ERROR",
+          "message": "Internal error"
+        }
+      }
+    ]
+  }
+]
+
+## Q6 latency
+{
+  "samples": [
+    {
+      "getMs": 876,
+      "putMs": 2092,
+      "putStatus": 200,
+      "editMs": 990,
+      "editStatus": 200
+    },
+    {
+      "getMs": 643,
+      "putMs": 1623,
+      "putStatus": 200,
+      "editMs": 813,
+      "editStatus": 200
+    },
+    {
+      "getMs": 597,
+      "putMs": 2058,
+      "putStatus": 200,
+      "editMs": 964,
+      "editStatus": 200
+    },
+    {
+      "getMs": 581,
+      "putMs": 1513,
+      "putStatus": 200,
+      "editMs": 917,
+      "editStatus": 200
+    },
+    {
+      "getMs": 591,
+      "putMs": 1444,
+      "putStatus": 200,
+      "editMs": 952,
+      "editStatus": 200
+    },
+    {
+      "getMs": 667,
+      "putMs": 1382,
+      "putStatus": 200,
+      "editMs": 967,
+      "editStatus": 200
+    },
+    {
+      "getMs": 589,
+      "putMs": 1435,
+      "putStatus": 200,
+      "editMs": 1016,
+      "editStatus": 200
+    },
+    {
+      "getMs": 596,
+      "putMs": 1503,
+      "putStatus": 200,
+      "editMs": 888,
+      "editStatus": 200
+    },
+    {
+      "getMs": 594,
+      "putMs": 2077,
+      "putStatus": 200,
+      "editMs": 984,
+      "editStatus": 200
+    },
+    {
+      "getMs": 574,
+      "putMs": 1428,
+      "putStatus": 200,
+      "editMs": 1223,
+      "editStatus": 200
+    }
+  ],
+  "medianGet": 596,
+  "medianPut": 1513,
+  "medianEdit": 967,
+  "maxGetPut": 2968
+}
+
+run prefix: _pebble-test/1794203909445

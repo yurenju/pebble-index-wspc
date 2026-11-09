@@ -1,0 +1,3 @@
+{"round":1,"attempts":[4,5,2,8,7,6,10,3,1,9],"allOk":true,"kept":10,"dupes":0,"markers":1,"wallMs":20596,"maxMs":20590,"non409":[]}
+{"round":2,"attempts":[6,10,2,4,3,5,1,9,7,8],"allOk":true,"kept":10,"dupes":0,"markers":1,"wallMs":20571,"maxMs":20571,"non409":["500:INTERNAL_ERROR"]}
+{"round":3,"attempts":[6,7,1,3,2,5,9,4,10,8],"allOk":true,"kept":10,"dupes":0,"markers":1,"wallMs":19558,"maxMs":19555,"non409":["500:INTERNAL_ERROR","500:INTERNAL_ERROR","500:INTERNAL_ERROR"]}
